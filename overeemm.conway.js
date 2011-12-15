@@ -1,23 +1,33 @@
 var overeemm = window.overeemm || {};
 
-overeemm.log = function(msg) {
-     //console.log(msg);
+overeemm.log = function(debug) {
+    return function (msg) { 
+        if(debug) {
+            console.log(msg); 
+        }
+    };
 };
 
 overeemm.conway = overeemm.conway || {};
 
-overeemm.conway.Life = function (canvas, args) {
-    
-    var blocksize = args.blocksize || 5;
+overeemm.conway.Life = function (canvas) {
     
     var elem = document.getElementById(canvas);
+    var pattern = elem.getAttribute('data-startpattern');
+    var blocksize = elem.getAttribute('data-blocksize');
+    var steptime = elem.getAttribute('data-steptime');
+    var debug = elem.getAttribute('data-debug');
+    
+    var log = overeemm.log(debug === '1');
+    
     var canvascontext = elem.getContext('2d');
     var width = elem.getAttribute('width') / blocksize;
     var height = elem.getAttribute('height') / blocksize;
     var state = [];
+    var running = false;
     
     var initState = function () {
-         
+        state = [];
         for(var x = 0; x < width; x++) {
             state[x] = [];
             for(var y = 0; y < height; y++) {
@@ -56,7 +66,7 @@ overeemm.conway.Life = function (canvas, args) {
     };
     
     var step = function () {
-        //overeemm.log('step begin');
+        log('step begin');
         var newstate = [];
         
         for(var x = 0; x < width; x++) {
@@ -65,30 +75,27 @@ overeemm.conway.Life = function (canvas, args) {
                 newstate[x][y] = shouldLive(state, x, y) ? '1' : '0';
             }
         }
-        //overeemm.log(state);
         state = newstate;
-        //overeemm.log(state);
-        //overeemm.log('step eind');
+        log('step eind');
     };
     
     var init = function() {
       
         initState();
         
-        var pattern = elem.getAttribute('data-startpattern');
-        overeemm.log('initial pattern '+pattern);
+        log('initial pattern '+pattern);
         var startingpoints = pattern.split(';');
         for(var i = 0; i < startingpoints.length; i++){
             var x = startingpoints[i].split(',')[0];
             var y = startingpoints[i].split(',')[1];
-            overeemm.log('init pixel ('+x+','+y+')');
+            log('init pixel ('+x+','+y+')');
             state[x-1][y-1] = '1';
         }
     };
     
     var show = function () {
-        overeemm.log('current state');
-        overeemm.log(state);
+        log('current state');
+        log(state);
         
         canvascontext.fillStyle = "rgb(255,255,255)";
         canvascontext.fillRect(0,0,width*blocksize,height*blocksize);
@@ -96,7 +103,7 @@ overeemm.conway.Life = function (canvas, args) {
         canvascontext.fillStyle = "rgb(0,0,0)";
         for(var x = 0; x < width; x++) {
             for(var y = 0; y < height; y++) {
-                overeemm.log('('+x+','+y+') ' + (state[x][y] === '1' ? 'true' : 'false'));
+                log('('+x+','+y+') ' + (state[x][y] === '1' ? 'true' : 'false'));
                 
                 if(state[x][y] === '1')
                     canvascontext.fillRect(x*blocksize, y*blocksize, blocksize, blocksize);
@@ -105,16 +112,20 @@ overeemm.conway.Life = function (canvas, args) {
     };
     
     var start = function () {
+        
         step();
         show();
-        setTimeout(function() { start(); }, 500);
+        if(running)
+            setTimeout(function() { start(); }, steptime);
     };
     
     var life = {
         show : function () { show(); return life; },
         init: function () { init(); return life; },
         step : function () { step(); return life; },
-        start : function () { start(); return life; }
+        start : function () { running = true; start(); return life; },
+        stop : function () { running = false; return life; },
+        reset : function () { running = false; init(); show(); return life; }
     };
     
     return life;

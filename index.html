@@ -3,24 +3,34 @@
     <head>
         <title>Conway's Script Of Life</title>
         <script type="text/javascript" src="overeemm.conway.js"></script>
+        <style>
+        canvas { margin: 10px; }
+        </style>
     </head>
     <body>
     
-        <canvas id="example" width="25" height="25" data-startpattern="3,2;3,3;3,4">
+        <canvas id="example1" width="25" height="25" 
+                data-startpattern="3,2;3,3;3,4" data-blocksize="5" 
+                data-steptime="100">
             Your browser does not support the CANVAS element. To bad!
         </canvas>
     
+        <canvas id="example2" width="25" height="25" 
+                data-startpattern="3,2;3,3;3,4" data-blocksize="5" 
+                data-steptime="500">
+            Your browser does not support the CANVAS element. To bad!
+        </canvas>
     
-        <input type="button" id="step" value="start" />
+        <canvas id="example3" width="25" height="25" 
+                data-startpattern="3,2;3,3;3,4" data-blocksize="5" 
+                data-steptime="1000">
+            Your browser does not support the CANVAS element. To bad!
+        </canvas>
     
         <script type="text/javascript">
-        
-            var example = overeemm.conway.Life('example', {})
-                                         .init()
-                                         .show();
-            
-            var btn = document.getElementById('step');
-            btn.onclick = function () { example.start(); };
+            overeemm.conway.Life('example1').init().show().start();
+            overeemm.conway.Life('example2').init().show().start();
+            overeemm.conway.Life('example3').init().show().start();
         </script>
     </body>
 </html>
