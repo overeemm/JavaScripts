@@ -6,14 +6,14 @@
     </head>
     <body>
     
-        <canvas id="example" width="5" height="5" data-startpattern="3,3">
+        <canvas id="example" width="25" height="25" data-startpattern="1,1;2,2;3,3;4,4;5,5">
             Your browser does not support the CANVAS element. To bad!
         </canvas>
     
     
         <script type="text/javascript">
         
-            var example = overeemm.conway.Life('example')
+            var example = overeemm.conway.Life('example', {})
                                          .init()
                                          .show();
         </script>
