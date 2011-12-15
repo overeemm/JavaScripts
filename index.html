@@ -6,16 +6,21 @@
     </head>
     <body>
     
-        <canvas id="example" width="25" height="25" data-startpattern="1,1;2,2;3,3;4,4;5,5">
+        <canvas id="example" width="25" height="25" data-startpattern="3,2;3,3;3,4">
             Your browser does not support the CANVAS element. To bad!
         </canvas>
     
+    
+        <input type="button" id="step" value="start" />
     
         <script type="text/javascript">
         
             var example = overeemm.conway.Life('example', {})
                                          .init()
                                          .show();
+            
+            var btn = document.getElementById('step');
+            btn.onclick = function () { example.start(); };
         </script>
     </body>
 </html>
