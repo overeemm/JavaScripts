@@ -9,28 +9,46 @@
     </head>
     <body>
     
-        <canvas id="example1" width="25" height="25" 
-                data-startpattern="3,2;3,3;3,4" data-blocksize="5" 
+        <input type="button" id="btn_example1" value="example 1" />     
+        <input type="button" id="btn_example2" value="example 2" />
+        <input type="button" id="btn_example3" value="example 3" />
+    
+        <div style="float:clear;" />     
+    
+        <canvas id="example1" width="250" height="250" style="display:none;"
+                data-startpattern="3,2;3,3;3,4;8,2;8,3;8,4;8,7;8,8;8,9" data-blocksize="5" 
                 data-steptime="100">
             Your browser does not support the CANVAS element. To bad!
         </canvas>
     
-        <canvas id="example2" width="25" height="25" 
+        <canvas id="example2" width="250" height="250" style="display:none;"
                 data-startpattern="3,2;3,3;3,4" data-blocksize="5" 
                 data-steptime="500">
             Your browser does not support the CANVAS element. To bad!
         </canvas>
     
-        <canvas id="example3" width="25" height="25" 
+        <canvas id="example3" width="250" height="250" style="display:none;"
                 data-startpattern="3,2;3,3;3,4" data-blocksize="5" 
                 data-steptime="1000">
             Your browser does not support the CANVAS element. To bad!
         </canvas>
     
         <script type="text/javascript">
-            overeemm.conway.Life('example1').init().show().start();
-            overeemm.conway.Life('example2').init().show().start();
-            overeemm.conway.Life('example3').init().show().start();
+            
+            var example = function (btnid, canvasid) {
+                var shown = false;                
+                var conway = overeemm.conway.Life(canvasid).init().show();
+                var canvas = document.getElementById(canvasid);
+                document.getElementById(btnid).onclick = function () {
+                    canvas.style.display = canvas.style.display === 'none' ? 'block' : 'none';
+                    conway.toggle();
+                    shown = !shown; 
+                };
+            };
+            
+            example('btn_example1', 'example1');
+            example('btn_example2', 'example2');
+            example('btn_example3', 'example3');
         </script>
     </body>
 </html>
