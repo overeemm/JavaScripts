@@ -2,3 +2,5 @@
 
 Conway's Game Of Life in script, coded in the cloud.
 http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+
+See http://www.movereem.nl/conwaysscriptoflife/ for a live running example.
