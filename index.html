@@ -9,65 +9,33 @@
     </head>
     <body>
     
-        <input type="button" id="btn_example1" value="example 1" />     
-        <input type="button" id="btn_example2" value="example 2" />
-        <input type="button" id="btn_example3" value="example 3" />
-        <input type="button" id="btn_example4" value="example 4" />
-        <input type="button" id="btn_example5" value="example 5" />
-    
-        <div style="float:clear;" />     
-    
-        <canvas id="example1" width="250" height="250" style="display:none;"
-                data-startpattern="3,2;3,3;3,4;8,2;8,3;8,4;8,7;8,8;8,9" data-blocksize="5" 
-                data-steptime="100">
-            Your browser does not support the CANVAS element. To bad!
-        </canvas>
-    
-        <canvas id="example2" width="250" height="250" style="display:none;"
-                data-startpattern="3,2;3,3;3,4" data-blocksize="5" 
-                data-steptime="500">
-            Your browser does not support the CANVAS element. To bad!
-        </canvas>
-    
-        <canvas id="example3" width="250" height="250" style="display:none;"
-                data-startpattern="3,2;3,3;3,4" data-blocksize="5" 
-                data-steptime="1000">
-            Your browser does not support the CANVAS element. To bad!
-        </canvas>
-    
-        <canvas id="example4" width="190" height="55" style="display:none;"
-                data-startpattern="2,6;2,7;3,6;3,7;12,6;12,7;12,8;13,5;13,9;14,4;14,10;15,4;15,10;16,7;17,5;17,9;18,6;18,7;18,8;19,7;22,4;22,5;22,6;23,4;23,5;23,6;24,3;24,7;26,2;26,3;26,7;26,8;36,4;36,5;37,4;37,5" data-blocksize="5" 
+        <canvas id="example" width="380" height="110"
+                data-startpattern="2,6;2,7;3,6;3,7;12,6;12,7;12,8;13,5;13,9;14,4;14,10;15,4;15,10;16,7;17,5;17,9;18,6;18,7;18,8;19,7;22,4;22,5;22,6;23,4;23,5;23,6;24,3;24,7;26,2;26,3;26,7;26,8;36,4;36,5;37,4;37,5" 
+                data-blocksize="10" 
                 data-steptime="10">
             Your browser does not support the CANVAS element. To bad!
-        </canvas>
+        </canvas>    
     
-        <canvas id="example5" width="205" height="15" style="display:none;"
-                data-startpattern="2,2;3,2;4,2;5,2;6,2;7,2;8,2;9,2;11,2;12,1;13,2;14,2;15,2;19,2;20,2;21,2;28,2;29,2;30,2;31,2;32,2;33,2;34,2;36,2;37,2;38,2;39,2;40,2" 
-                data-blocksize="5" 
-                data-steptime="200">
-            Your browser does not support the CANVAS element. To bad!
-        </canvas>
-        
-        
+        <div style="float:clear" />
+    
+        <input id="start" type="button" value="start" />
+        <input id="stop" type="button" value="stop" />
+        <input id="reset" type="button" value="reset" />
+    
     
         <script type="text/javascript">
-            
-            var example = function (btnid, canvasid) {
-                var shown = false;                
-                var conway = overeemm.conway.Life(canvasid).init().show();
-                var canvas = document.getElementById(canvasid);
-                document.getElementById(btnid).onclick = function () {
-                    canvas.style.display = canvas.style.display === 'none' ? 'block' : 'none';
-                    conway.toggle();
-                    shown = !shown; 
-                };
-            };
-            
-            example('btn_example1', 'example1');
-            example('btn_example2', 'example2');
-            example('btn_example3', 'example3');
-            example('btn_example4', 'example4');
-            example('btn_example5', 'example5');
+                var conway = overeemm.conway.Life('example').init().show();
+
+                document.getElementById('start').onclick = function () {
+					conway.start();
+				};
+                document.getElementById('stop').onclick = function () {
+					conway.stop();
+				};
+                document.getElementById('reset').onclick = function () {
+					conway.stop();
+					conway = overeemm.conway.Life('example').init().show();
+				};				
         </script>
     </body>
 </html>
