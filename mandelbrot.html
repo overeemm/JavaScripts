@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mandelbrot</title>
+        <script type="text/javascript" src="overeemm.mandelbrot.js"></script>
+        <style>
+        canvas { margin: 10px; }
+        </style>
+    </head>
+    <body>
+    
+        <canvas id="example" width="400" height="400">
+            Your browser does not support the CANVAS element. To bad!
+        </canvas>    
+    
+        <div style="float:clear" />
+    
+    
+        <script type="text/javascript">
+            overeemm.mandelbrot.Painter({ canvas : document.getElementById('example') }).paint();		
+        </script>
+    </body>
+</html>
