@@ -8,9 +8,9 @@ overeemm.mandelbrot = overeemm.mandelbrot || {};
 
 overeemm.mandelbrot.Number = function(options) {
     
-    var repeatloops = options.repeatloops || 100;
-    var scale = options.scale || 0.01;
-    var colormodifier = options.colormodifier || function (r, g, b) { return { r: r, g: 255-g, b: b}; };
+    var repeatloops = 255;
+    var scale = options.scale;
+    var colormodifier = options.colormodifier || function (r, g, b) { return { r: r, g: 255-g, b: 255-b}; };
     
     var getColor = function(number) {
         
@@ -58,8 +58,10 @@ overeemm.mandelbrot.Painter = function(options) {
     var canvasheight = parseInt(canvas.getAttribute('height'));
     
     var center = { x : 0.0, y : 0.0 };
-    var startpoint = { x : -1 * (canvaswidth / 2), y : -1 * (canvasheight / 2) };
-    var endpoint = { x : startpoint.x + canvaswidth, y : startpoint.y + canvasheight };
+    var startpoint = { x : -1 * (canvaswidth / 2)
+                     , y : -1 * (canvasheight / 2) };
+    var endpoint = { x : startpoint.x + canvaswidth
+                   , y : startpoint.y + canvasheight };
     
     var number = overeemm.mandelbrot.Number({ scale : scale});
     
