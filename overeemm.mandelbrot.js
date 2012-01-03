@@ -8,8 +8,8 @@ overeemm.mandelbrot = overeemm.mandelbrot || {};
 
 overeemm.mandelbrot.Number = function(options) {
     
-    var repeatloops = 255;
-    var scale = 0.01;
+    var repeatloops = 256;
+    var scale = 0.0;
     var colormodifier = options.colormodifier || function (r, g, b) { return { r: r, g: 255-g, b: 255-b}; };
     
     var setScale = function(sc) { 
@@ -25,31 +25,32 @@ overeemm.mandelbrot.Number = function(options) {
     var getColor = function(number) {
         
         var r = 0, g = 0, b = 0;
-        r = ( ( (number/scale) * (255/ (repeatloops/scale) ) ) );
-        g = ( ( (number/scale) * (255/ (repeatloops/scale) ) ) );
-        b = ( ( (number/scale) * (255/ (repeatloops/scale) ) ) );
+        r = ( ( (number/scale) * (repeatloops/ (repeatloops/scale) ) ) );
+        g = ( ( (number/scale) * (repeatloops/ (repeatloops/scale) ) ) );
+        b = ( ( (number/scale) * (repeatloops/ (repeatloops/scale) ) ) );
 
         return colormodifier(r, g, b);
     };    
      
-    var getNumber = function (x, y, center) {
-         
-        var a = { start: 0.0, loop: 0.0, previous : 0.0 };
-        var b = { start: 0.0, loop: 0.0, previous : 0.0 };
+    var getNumber = function (x, y, center_x, center_y) {
+       
+        var a_loop = 0.0;
+        var a_prev = 0.0;
+        var b_loop = 0.0;
+        var b_prev = 0.0;
         var distance = 0.0;
         var number = 0;
 
-        x = center.x+(x*scale);
-        y = center.y+(y*scale);
+        x = center_x + x * scale;
+        y = center_y + y * scale;
 
-        while (number < repeatloops && distance < 4) {
-            a.previous = a.loop;
-            b.previous = b.loop;
-            a.loop = a.previous * a.previous - b.previous * b.previous + x;
-            b.loop = 2 * a.previous * b.previous + y;
-            distance = Math.sqrt( (Math.abs(a.start - a.loop) * Math.abs(a.start - a.loop)) +
-                                  (Math.abs(b.start - b.loop) * Math.abs(b.start - b.loop))
-                                );
+        while (number < repeatloops && distance < 16) {
+            a_prev = a_loop;
+            b_prev = b_loop;
+            a_loop = a_prev * a_prev - b_prev * b_prev + x;
+            b_loop = 2 * a_prev * b_prev + y;
+            
+            distance = a_loop * a_loop + b_loop * b_loop;
             number++;
         }
         return number;
@@ -66,14 +67,15 @@ overeemm.mandelbrot.Painter = function(options) {
     
     var canvas = options.canvas;
     var canvascontext = canvas.getContext('2d');
-    var canvaswidth = parseInt(canvas.getAttribute('width'));
-    var canvasheight = parseInt(canvas.getAttribute('height'));
+    var canvas_half_width = parseInt(canvas.getAttribute('width')) / 2;
+    var canvas_half_height = parseInt(canvas.getAttribute('height')) / 2;
     
-    var center = { x : 0.0, y : 0.0 };
-    var startpoint = { x : -1 * (canvaswidth / 2),
-                       y : -1 * (canvasheight / 2) };
-    var endpoint = { x : startpoint.x + canvaswidth,
-                     y : startpoint.y + canvasheight };
+    var center_x = 0.0;
+    var center_y = 0.0;
+    var startpoint_x = 0 - canvas_half_width;
+    var startpoint_y = 0 - canvas_half_height;
+    var endpoint_x = canvas_half_width;
+    var endpoint_y = canvas_half_height;
     
     var number = overeemm.mandelbrot.Number({});
     number.setScale(options.scale || 0.01);
@@ -83,12 +85,12 @@ overeemm.mandelbrot.Painter = function(options) {
     };
     
     var paint = function () {
-        for (var screenX = startpoint.x; screenX < endpoint.x ; screenX++) {
-            for (var screenY = startpoint.y; screenY < endpoint.y ; screenY++) {
-                var xynumber = number.getNumber( screenX, screenY, center);
+        for (var screenX = startpoint_x; screenX < endpoint_x ; screenX++) {
+            for (var screenY = startpoint_y; screenY < endpoint_y ; screenY++) {
+                var xynumber = number.getNumber(screenX, screenY, center_x, center_y);
                 var color = number.getColor(xynumber);
                 setColor(color);
-                canvascontext.fillRect(screenX+200, screenY+200, 1, 1);
+                canvascontext.fillRect(screenX + canvas_half_width, screenY + canvas_half_height, 1, 1);
             }
         }         
     };
@@ -111,8 +113,8 @@ overeemm.mandelbrot.Painter = function(options) {
     var zoom = function(point) {
         var oldscale = number.setScale( function(s) { return s/2; } );
         
-        center.x = center.x + ( (point.x - (canvaswidth / 2)) * oldscale);
-	   center.y = center.y + ( (point.y - (canvasheight / 2)) * oldscale);
+        center_x = center_x + ( (point.x - canvas_half_width) * oldscale);
+	   center_y = center_y + ( (point.y - canvas_half_height) * oldscale);
     };
     
     var painter = {
