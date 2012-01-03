@@ -17,7 +17,12 @@
     
     
         <script type="text/javascript">
-            overeemm.mandelbrot.Painter({ canvas : document.getElementById('example') }).paint();		
+            var example = document.getElementById('example');
+            var painter = overeemm.mandelbrot.Painter({ canvas : example }).paint();	
+            example.onclick = function (event) {
+                 var point = painter.getCoordinates(event, document, example);
+                 painter.zoom(point).paint();
+            };
         </script>
     </body>
 </html>
