@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>performance</title>
+    </head>
+    <body>
+    
+        <div id="original"></div>
+        
+        <div id="improved"></div>
+    
+        <script type="text/javascript">
+        
+        Array.prototype.compareArrays = function(arr) {
+              if (this.length != arr.length) return false;
+              for (var i = 0; i < arr.length; i++) {
+                  if (this[i].compareArrays) { //likely nested array
+                      if (!this[i].compareArrays(arr[i])) return false;
+                      else continue;
+                  }
+                  if (this[i] != arr[i]) return false;
+              }
+              return true;
+          }
+
+        
+        var div_original = document.getElementById('original');
+        var div_improved = document.getElementById('improved');
+        var loops = 1000;
+        var loops_half = loops / 2;
+        var repeatloops = 256;
+        
+        var original_output = [];
+        var improved_output = [];
+        
+        div_original.innerHTML = 'start';
+        
+          (function() {
+               var center = {
+                    x: 0.0,
+                    y: 0.0
+               };
+               var startpoint = {
+                    x: -1 * (loops / 2),
+                    y: -1 * (loops / 2)
+               };
+               var endpoint = {
+                    x: startpoint.x + loops,
+                    y: startpoint.y + loops
+               };
+               var scale = 0.01;
+          
+               function origGetNumber(x, y) {
+                    var a = {
+                         start: 0.0,
+                         loop: 0.0,
+                         previous: 0.0
+                    };
+                    var b = {
+                         start: 0.0,
+                         loop: 0.0,
+                         previous: 0.0
+                    };
+                    var distance = 0.0;
+                    var number = 0;
+          
+                    while (number < repeatloops && distance < 4) {
+                         a.previous = a.loop;
+                         b.previous = b.loop;
+                         a.loop = a.previous * a.previous - b.previous * b.previous + x;
+                         b.loop = 2 * a.previous * b.previous + y;
+                         distance = Math.sqrt((Math.abs(a.start - a.loop) * Math.abs(a.start - a.loop)) + (Math.abs(b.start - b.loop) * Math.abs(b.start - b.loop)));
+                         number++;
+                    }
+                    return number;
+               }
+          
+          
+               var start = (new Date).getTime();
+               var iterations = 0;
+          
+               for (var screenX = startpoint.x; screenX < endpoint.x; screenX++) {
+                    //original_output[screenX] = [];
+                    for (var screenY = startpoint.y; screenY < endpoint.y; screenY++) {
+                         var xynumber = origGetNumber(center.x + (screenX * scale), center.y + (screenY * scale));
+                         iterations++;
+                      //   original_output[screenX][screenY] = xynumber;
+                    }
+               }
+               
+               div_original.innerHTML = 'original: '+ ( (new Date).getTime() - start ) + ' ('+iterations+' iters)';
+          }());
+          
+          div_improved.innerHTML = 'start';
+          
+          (function() {
+     
+               var center_x = 0.0;
+               var center_y = 0.0;
+               var startpoint_x = 0 - loops_half;
+               var startpoint_y = 0 - loops_half;
+               var endpoint_x = loops_half;
+               var endpoint_y = loops_half;
+               var scale = 0.01;
+     
+               function newGetNumber(x, y) {
+                    var a_loop = 0.0;
+                    var a_prev = 0.0;
+                    var b_loop = 0.0;
+                    var b_prev = 0.0;
+                    var distance = 0.0;
+                    var number = 0;
+     
+                    x = center_x + x * scale;
+                    y = center_y + y * scale;
+     
+                    while (number < repeatloops && distance < 16) {
+                         a_prev = a_loop;
+                         b_prev = b_loop;
+                         a_loop = a_prev * a_prev - b_prev * b_prev + x;
+                         b_loop = 2 * a_prev * b_prev + y;
+     
+                         distance = a_loop * a_loop + b_loop * b_loop;
+                         number++;
+                    }
+                    return number;
+               }
+     
+               var start = (new Date).getTime();
+               var iterations = 0;
+               
+               for (var screenX = startpoint_x; screenX < endpoint_x; screenX++) {
+                    //improved_output[screenX] = [];
+                    for (var screenY = startpoint_y; screenY < endpoint_y; screenY++) {
+                         var xynumber = newGetNumber(screenX, screenY, center_x, center_y);
+                         iterations++;
+                      //   improved_output[screenX][screenY] = xynumber;
+                    }
+               }
+               
+               div_improved.innerHTML = 'improved: '+ ( (new Date).getTime() - start ) + ' ('+iterations+' iters)';
+          }());
+         /* 
+          if(improved_output.compareArrays(original_output)){
+               alert('outcome equal');
+          } else {
+               alert('outcome not equal');
+          }
+          */
+        </script>
+    </body>
+</html>
