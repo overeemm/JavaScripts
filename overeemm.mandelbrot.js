@@ -85,14 +85,22 @@ overeemm.mandelbrot.Painter = function(options) {
     };
     
     var paint = function () {
-        for (var screenX = startpoint_x; screenX < endpoint_x ; screenX++) {
+        paintPart(startpoint_x);
+    };
+    
+    var paintPart = function(start_x) {
+        var start = new Date();
+        for (var screenX = start_x; screenX < endpoint_x && (new Date() - start) < 50 ; screenX++) {
             for (var screenY = startpoint_y; screenY < endpoint_y ; screenY++) {
                 var xynumber = number.getNumber(screenX, screenY, center_x, center_y);
                 var color = number.getColor(xynumber);
                 setColor(color);
                 canvascontext.fillRect(screenX + canvas_half_width, screenY + canvas_half_height, 1, 1);
             }
-        }         
+        }    
+        if(screenX < endpoint_x) {
+            setTimeout(function() { paintPart(screenX); }, 25);
+        }
     };
     
     var getCoordinates = function(event, document, canvas) {
