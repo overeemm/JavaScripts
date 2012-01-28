@@ -1,0 +1,134 @@
+input { -webkit-appearance:none; -webkit-border-radius: 0px 0px;}
+div { margin: 0px; padding: 0px; }
+*:focus {outline: none;}
+body { font-family: verdana; }
+html, body{ height:100%; margin: 0px; padding: 0px; }
+
+/* ACTION BAR */
+#new-issue div { float: left; }
+#new-issue div.input { 
+	width: 176px; 
+	border: solid 0px #000; 
+	height: 30px;
+	background: url('../images/newpostit.png') no-repeat left top;
+	float: left;
+}
+#new-issue div.img { padding-top: 4px; }
+#new-issue-text { 
+	width: 168px; 
+	border: solid 0px #000; 
+	height: 20px; line-height: 20px; 
+	padding: 0px;
+	margin: 5px 4px 5px 4px;
+	background-color: transparent;
+}
+
+#clear-issues, #new-issue-btn { 
+	border: solid 0px #000; 
+	cursor: pointer; 
+	height: 20px; 
+}
+
+#clear { float: right; padding-top: 4px; }
+#new-issue { float: left; }
+#actions { float: left; width: 100%; height: 30px; border: solid 0px #000; }
+
+/* BOARD */
+.board { 
+	top: 30px;
+	bottom: 30px;
+	left: 0px;
+	right: 0px;
+	position: absolute;
+	
+	background-color: #ccc;
+	border-radius: 10px;
+	padding: 0px;
+}
+
+.innerboard {
+	top: 10px;
+	bottom: 10px;
+	left: 10px;
+	right: 10px;
+	position: absolute;
+	
+	border-radius: 0px;
+	border: solid 0px #000;
+	background: #f5fafa url(../images/horizontal.png) 8px left no-repeat;
+}
+
+.column{ 
+	float: left;
+	margin: 0px;
+	padding: 0px;
+	margin-top: -4px; 
+	width:25%;
+}
+
+#column-someday { background: url(../images/vertical03.png) top right no-repeat; }
+#column-todo { background: url(../images/vertical01.png) top right no-repeat; }
+#column-inprogress { background: url(../images/vertical02.png) top right no-repeat; }
+#column-finished { background: url('logo.png') no-repeat 90px bottom; }
+
+.column .clear-column { margin-left: -10px; margin-bottom: 10px; cursor: pointer; }
+
+.header {
+	font-weight: bold;
+	margin: 4px; 
+	color: #459aaf;
+}
+
+.workflowstep {  
+	width: 200px; 
+	height: 550px;
+	margin: 2px; padding: 0; 
+	list-style-type: none;
+}
+
+.workflowstep li { cursor: move; }
+.issue { 
+	border: solid 0px #459aaf; 
+	font-size: 10pt;
+	color: #000; padding: 10px; 
+	width:190px; margin: 0px; height: 31px; overflow: hidden; line-height: 32px;
+	background: transparent url(../images/postit-background.png); 
+}
+
+.issue input {
+	width: 180px;
+	border: solid 0px;
+	background-color: #F5FAFA;
+}
+
+/* STATUS */
+.status { 
+	position: absolute;
+	bottom: 0px; left: 0px; right: 0px;
+	border: 0px solid #000; height: 30px;
+}
+
+.status span {
+	margin: 3px;
+	font-size: 10pt;
+}
+
+/*
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
+  body { height: 930px; }
+  .workflowstep {  
+	width: 180px; 
+	height: 870px;
+  }
+  #actions { width: 750px; }
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
+  body { height: 674px; }
+  .workflowstep {  
+	width:244px; 
+	height: 620px;
+  }
+  #actions { width: 1000px; }
+}
+*/

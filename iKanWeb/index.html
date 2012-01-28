@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		<title>iKanWeb</title>
+		
+		<link rel="stylesheet" href="css/kanban.css" type="text/css" /> 
+		<script src="scripts/jquery-1.4.4.min.js"></script>
+		<script src="scripts/jquery-ui-1.8.7.custom.min.js"></script>
+		<script src="scripts/jquery.json-2.2.min.js"></script>
+		<script src="scripts/jquery.touch.js"></script>
+		<script src="scripts/kanban-issues.js"></script>  
+		<script src="scripts/kanban.js"></script>
+		
+		<meta name="viewport" content="width=768px, minimum-scale=1.0, maximum-scale=1.0" /> 
+	</head>
+	<body>
+		<div id="actions">
+			<div id="new-issue">
+				<div class="input">
+					<input type="text" name="name" id="new-issue-text" title="issue text" />
+				</div>
+				<div class="img">
+					<img src="images/postit.png" title="add postit" alt="add" id="new-issue-btn" />
+				</div>
+			</div>
+			
+			<div id="clear">
+				<img src="images/trash.png" title="clear board" alt="clear" id="clear-issues" />
+			</div>
+		</div>
+		
+		<div class="board">
+			<div class="innerboard">
+				<div class="column" id="column-someday">
+					<img class="header" src="images/someday.png" alt="someday" title="column someday" />
+					<ul class="workflowstep" id="someday"></ul>
+				</div>
+				
+				<div class="column" id="column-todo">
+					<img class="header" src="images/todo.png" alt="todo" title="column todo" />
+					<ul class="workflowstep" id="todo"></ul>
+				</div>
+				
+				<div class="column" id="column-inprogress">
+					<img class="header" src="images/inprogress.png" alt="in progress" title="column in progress" />
+					<ul class="workflowstep" id="inprogress"></ul>
+				</div>
+				
+				<div class="column" id="column-finished">
+					<img class="header" src="images/finished.png" alt="finished" title="column finished" />
+					<img class="clear-column" src="images/trash.png" alt="clear column" title="clear finished issues" />
+					<ul class="workflowstep" id="finished"></ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="status">
+			<span></span>
+		</div>
+	</body>
+</html>
